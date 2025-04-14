@@ -1,0 +1,23 @@
+{
+  "name": "seproject",
+  "version": "1.0.0",
+  "description": "a full-stack web application to create an online event ticketing system. This system will allow users to browse, search, and purchase tickets for various events such as concerts, sports games, theater shows, and more.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RazanNotFound/SEproject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RazanNotFound/SEproject/issues"
+  },
+  "homepage": "https://github.com/RazanNotFound/SEproject#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
