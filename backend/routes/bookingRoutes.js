@@ -10,3 +10,5 @@ router.get('/:id', authMiddleware, bookingController.getBookingById);
 router.delete('/:id', authMiddleware, bookingController.cancelBookings);
 
 router.get('/users/booking', authMiddleware, bookingController.getCurrentBookings);
+
+module.exports = router; 
