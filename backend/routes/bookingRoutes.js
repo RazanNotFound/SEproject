@@ -1,7 +1,7 @@
-const express = require("express");
+//const express = require("express");
 const bookingController = require('../controllers/bookingController');
 const authMiddleware = require('../middleware/authMiddleware');
-const router = express.Router();
+//const router = express.Router();
 
 router.post('/', authMiddleware, bookingController.createBooking);
 
@@ -11,4 +11,4 @@ router.delete('/:id', authMiddleware, bookingController.cancelBookings);
 
 router.get('/users/booking', authMiddleware, bookingController.getCurrentBookings);
 
-module.exports = router; 
+//module.exports = router;
