@@ -12,9 +12,9 @@ connectDB();
 app.use(express.json());
 
 // routes
-app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/events", require("./routes/eventRoutes"));
-app.use("/api/bookings", require("./routes/bookingRoutes"));
+app.use("/api/v1", require("./routes/userRoutes"));
+app.use("/api/v1/events", require("./routes/eventRoutes"));
+app.use("/api/v1/bookings", require("./routes/bookingRoutes"));
 
 app.get("/", (req, res) => {
   res.send("API running");
