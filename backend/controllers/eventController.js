@@ -1,4 +1,6 @@
-
+const Booking = require('../Models/Booking');
+const Event = require('../models/Event');
+const User = require('../models/User');
 
 exports.getAllEvents = async (req, res) => {
     const events = await Event.find(); 
@@ -13,19 +15,24 @@ exports.getAllEvents = async (req, res) => {
     
   
     exports.createEvent = async (req, res) => {
-  
-      if (req.user.role !== 'organizer') {
+      if (req.user.role !== 'Organizer') {
         return res.status(403).json({ message: 'Only organizers can create events' });
       }
     
-      const event = await Event.create({
-        ...req.body,
-        organizer: req.user._id, 
-        remainingTickets: req.body.totalTickets, 
-      });
+      try {
+        const event = await Event.create({
+          ...req.body,
+          organizer: req.user._id, 
+          remainingTickets: req.body.totalTickets, 
+        });
     
-      res.status(201).json(event);
+        res.status(201).json(event);
+      } catch (error) {
+        console.error("Create event error:", error.message);
+        res.status(500).json({ message: 'Server error' });
+      }
     };
+    
     
     
     exports.getEventById = async (req, res) => {
@@ -39,7 +46,7 @@ exports.getAllEvents = async (req, res) => {
       const event = await Event.findById(req.params.id);
       if (!event) return res.status(404).json({ message: 'Event not found' });
     
-      if (req.user.role === 'organizer' && event.organizer.toString() !== req.user._id.toString()) {
+      if (req.user.role === 'Organizer' && event.organizer.toString() !== req.user._id.toString()) {
         return res.status(403).json({ message: 'Not authorized' });
       }
     
@@ -56,7 +63,7 @@ exports.getAllEvents = async (req, res) => {
       const event = await Event.findById(req.params.id);
       if (!event) return res.status(404).json({ message: 'Event not found' });
     
-      if (req.user.role === 'organizer' && event.organizer.toString() !== req.user._id.toString()) {
+      if (req.user.role === 'Organizer' && event.organizer.toString() !== req.user._id.toString()) {
         return res.status(403).json({ message: 'Not authorized' });
       }
     
