@@ -6,7 +6,7 @@ const bookingController = {
     createBooking: async (req, res) => {
         try {
           const { eventId, numberOfTickets, bookingDate } = req.body;
-          const userId = req.user.userId; // ✅ fix here
+          const userId = req.user.userId; 
       
           const eventDetails = await Event.findById(eventId);
           if (!eventDetails) {
@@ -23,8 +23,8 @@ const bookingController = {
           await eventDetails.save();
       
           const newBooking = await Booking.create({
-            user: userId, // ✅ make sure it's 'user'
-            event: eventId, // ✅ and 'event'
+            user: userId,
+            event: eventId,
             ticketsBooked: numberOfTickets,
             bookingDate,
             totalPrice,
@@ -34,7 +34,7 @@ const bookingController = {
           return res.status(201).json({ message: 'Booking created successfully!', booking: newBooking });
         } catch (error) {
           console.error(error);
-          return res.status(500).json({ message: 'Oh oh, whoopsie (｡•́︿•̀｡)' });
+          return res.status(500).json({ message: 'Oh oh, whoopsie (｡•́︿•̀｡) cannot create booking' });
         }
       },
     
@@ -76,12 +76,12 @@ cancelBookings: async (req, res) => {
         return res.status(400).json({ message: 'Booking already cancelled \^^/' });
       }
   
-      const eventDetails = await Event.findById(ticket.event); // ✅ was ticket.eventId
+      const eventDetails = await Event.findById(ticket.event);
       if (!eventDetails) {
         return res.status(404).json({ message: 'Event not found O_o' });
       }
   
-      eventDetails.remainingTickets += ticket.ticketsBooked; // ✅ was numberOfTickets
+      eventDetails.remainingTickets += ticket.ticketsBooked; 
       await eventDetails.save();
   
       ticket.status = 'cancelled';
@@ -91,7 +91,7 @@ cancelBookings: async (req, res) => {
   
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: 'Error Error >o<' });
+      return res.status(500).json({ message: 'Error could not cancel booking >o<' });
     }
   }
   
