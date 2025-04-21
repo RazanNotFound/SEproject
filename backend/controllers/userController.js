@@ -101,13 +101,20 @@ const userController = {
   //  /api/v1/users/profile (GET)
   getCurrentUser: async (req, res) => {
     try {
+      // Ensure that req.user.userId is a valid ObjectId
+      console.log("Fetching user with ID:", req.user.userId);
+  
       const user = await userModel.findById(req.user.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
       res.status(200).json(user);
     } catch (e) {
       console.error("Get current user error:", e.message);
       res.status(500).json({ message: "Server error" });
     }
   },
+  
 
   //  /api/v1/users/profile (PUT)
   updateCurrentUserProfile: async (req, res) => {
@@ -149,15 +156,31 @@ const userController = {
       if (req.user.role !== "System Admin") {
         return res.status(403).json({ message: "Access denied" });
       }
-
+  
       const { role } = req.body;
+      const allowedRoles = ["System Admin", "Organizer", "Standard User"];
+  
+      if (!allowedRoles.includes(role)) {
+        return res.status(400).json({ message: "Invalid role" });
+      }
+  
+      if (req.params.id === req.user.userId && role !== req.user.role) {
+        return res.status(400).json({ message: "Cannot change your own role" });
+      }
+  
       const user = await userModel.findByIdAndUpdate(req.params.id, { role }, { new: true });
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
       return res.status(200).json({ message: "User role updated", user });
     } catch (error) {
       console.error("Update user role error:", error.message);
       return res.status(500).json({ message: "Server error" });
     }
   },
+  
 
   //  /api/v1/users/:id (DELETE) — Admin
   deleteUser: async (req, res) => {
@@ -177,24 +200,48 @@ const userController = {
   //  /api/v1/users/bookings (Standard User)
   getUserBookings: async (req, res) => {
     try {
-      const bookings = await bookingModel.find({ user: req.user.userId }).populate("event");
-      return res.status(200).json(bookings);
+      const userId = req.user?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized: No user found in request" });
+      }
+  
+      const bookings = await bookingModel
+        .find({ user: userId })
+        .populate("event");
+  
+      if (!bookings.length) {
+        return res.status(404).json({ message: "No bookings found" });
+      }
+  
+      return res.status(200).json({ bookings });
     } catch (error) {
       console.error("Get user bookings error:", error.message);
       return res.status(500).json({ message: "Server error" });
     }
   },
+  
 
   //  /api/v1/users/events (Event Organizer)
   getUserEvents: async (req, res) => {
     try {
-      const events = await eventModel.find({ organizer: req.user.userId });
-      return res.status(200).json(events);
+      const userId = req.user?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized: No user found in request" });
+      }
+  
+      const events = await eventModel.find({ organizer: userId });
+  
+      if (!events.length) {
+        return res.status(404).json({ message: "No events found for this user" });
+      }
+  
+      return res.status(200).json({ events });
     } catch (error) {
       console.error("Get user events error:", error.message);
       return res.status(500).json({ message: "Server error" });
     }
-  },
+  }
+  ,
 
   //  /api/v1/users/events/analytics (Event Organizer)
   getEventAnalytics: async (req, res) => {

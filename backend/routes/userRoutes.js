@@ -13,19 +13,22 @@ router.put("/forgetPassword", userController.forgetPassword);  // /api/v1/forget
 // PROTECTED ROUTES — require authentication
 router.use(authenticationMiddleware);
 
+// AUTHENTICATED USER ROUTES — these must come first
+router.get("/users/profile", userController.getCurrentUser);          
+router.put("/users/profile", userController.updateCurrentUserProfile);
+
+router.get("/users/bookings", authorizationMiddleware(["Standard User", "Organizer", "System Admin"]), userController.getUserBookings);
+router.get("/users/events", authorizationMiddleware(["Organizer"]), userController.getUserEvents);
+router.get("/users/events/analytics", authorizationMiddleware(["Organizer"]), userController.getEventAnalytics);
+
 // ADMIN ROUTES
 router.get("/users", authorizationMiddleware(["System Admin"]), userController.getAllUsers);       
 router.get("/users/:id", authorizationMiddleware(["System Admin"]), userController.getUser);       
 router.put("/users/:id", authorizationMiddleware(["System Admin"]), userController.updateUserRole);
 router.delete("/users/:id", authorizationMiddleware(["System Admin"]), userController.deleteUser); 
 
-// AUTHENTICATED USER ROUTES
-router.get("/users/profile", userController.getCurrentUser);          
-router.put("/users/profile", userController.updateCurrentUserProfile);
 
 // missing routes
-router.get("/users/bookings", authorizationMiddleware(["Standard User", "Organizer", "System Admin"]), userController.getUserBookings);
-router.get("/users/events", authorizationMiddleware(["Organizer"]), userController.getUserEvents);
-router.get("/users/events/analytics", authorizationMiddleware(["Organizer"]), userController.getEventAnalytics);
+
 
 module.exports = router;
