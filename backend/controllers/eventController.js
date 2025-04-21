@@ -67,7 +67,7 @@ exports.getAllEvents = async (req, res) => {
         return res.status(403).json({ message: 'Not authorized' });
       }
     
-      await event.remove();
+      await event.deleteOne();
       res.json({ message: 'Event deleted' });
     };
     
