@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -19,13 +19,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['Standard User', 'Organizer', 'System Admin'], // Allowed roles
         default: 'Standard User'  
-      },
-    
-    //timeofCreation: { 
-    //  type: Date,
-    //  immutable: true,
-    //  default: () => Date.now(),
-    //}
+    },
 },{timestamps: true});
 
-module.exports = mongoose.model("Users", userSchema)
+// Check if model already exists to avoid re-compiling
+const User = mongoose.models.Users || mongoose.model("Users", userSchema);
+
+module.exports = User;

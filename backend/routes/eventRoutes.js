@@ -1,14 +1,17 @@
+// backend/routes/eventRoutes.js
 const express = require('express');
 const router = express.Router();
 const eventController = require('../controllers/eventController');
-const { protect, authorize } = require('../middleware/auth');
+const authenticationMiddleware = require('../middleware/authenticationMiddleware');
+const authorizationMiddleware = require('../middleware/authorizationMiddleware');
 
+// Use the middleware functions
 router.get('/', eventController.getAllApprovedEvents);
-router.get('/all', protect, authorize('admin'), eventController.getAllEvents);
-router.get('/organizer/analytics', protect, authorize('organizer'), eventController.eventAnalytics);
-router.post('/', protect, authorize('organizer'), eventController.createEvent);
+router.get('/all', authenticationMiddleware, authorizationMiddleware(['admin']), eventController.getAllEvents);
+router.get('/organizer/analytics', authenticationMiddleware, authorizationMiddleware(['organizer']), eventController.eventAnalytics);
+router.post('/', authenticationMiddleware, authorizationMiddleware(['organizer']), eventController.createEvent);
 router.get('/:id', eventController.getEventById);
-router.put('/:id', protect, authorize('organizer', 'admin'), eventController.updateEvent);
-router.delete('/:id', protect, authorize('organizer', 'admin'), eventController.deleteEvent);
+router.put('/:id', authenticationMiddleware, authorizationMiddleware(['organizer', 'admin']), eventController.updateEvent);
+router.delete('/:id', authenticationMiddleware, authorizationMiddleware(['organizer', 'admin']), eventController.deleteEvent);
 
 module.exports = router;

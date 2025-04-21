@@ -1,6 +1,6 @@
-const userModel = require("../Models/User");
+const userModel = require("../models/User");
 const bookingModel = require("../Models/Booking");
-const eventModel = require("../Models/Event");
+const eventModel = require("../models/Event");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -136,41 +136,41 @@ const userController = {
   },
 
 //   //  /api/v1/users/bookings (Standard User)
-//   getUserBookings: async (req, res) => {
-//     try {
-//       const bookings = await bookingModel.find({ user: req.user.userId }).populate("event");
-//       return res.status(200).json(bookings);
-//     } catch (error) {
-//       return res.status(500).json({ message: error.message });
-//     }
-//   },
+  getUserBookings: async (req, res) => {
+    try {
+      const bookings = await bookingModel.find({ user: req.user.userId }).populate("event");
+      return res.status(200).json(bookings);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
 
   //  /api/v1/users/events (Event Organizer)
-//   getUserEvents: async (req, res) => {
-//     try {
-//       const events = await eventModel.find({ organizer: req.user.userId });
-//       return res.status(200).json(events);
-//     } catch (error) {
-//       return res.status(500).json({ message: error.message });
-//     }
-//   },
+  getUserEvents: async (req, res) => {
+    try {
+      const events = await eventModel.find({ organizer: req.user.userId });
+      return res.status(200).json(events);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
 
 //   //  /api/v1/users/events/analytics (Event Organizer)
-//   getEventAnalytics: async (req, res) => {
-//     try {
-//       const events = await eventModel.find({ organizer: req.user.userId });
+  getEventAnalytics: async (req, res) => {
+    try {
+      const events = await eventModel.find({ organizer: req.user.userId });
 
-//       // basic example analytics
-//       const analytics = {
-//         totalEvents: events.length,
-//         totalTickets: events.reduce((sum, e) => sum + (e.ticketsSold || 0), 0),
-//       };
+      // basic example analytics
+      const analytics = {
+        totalEvents: events.length,
+        totalTickets: events.reduce((sum, e) => sum + (e.ticketsSold || 0), 0),
+      };
 
-//       return res.status(200).json(analytics);
-//     } catch (error) {
-//       return res.status(500).json({ message: error.message });
-//     }
-//   },
+      return res.status(200).json(analytics);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
 };
 
 module.exports = userController;

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/booking');
 
 const User = require('./User');
 const Event = require('./Event');
@@ -34,5 +33,6 @@ const bookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
 
+module.exports = Booking;
