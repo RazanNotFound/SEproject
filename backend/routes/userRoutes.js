@@ -14,17 +14,17 @@ router.put("/forgetPassword", userController.forgetPassword);  // /api/v1/forget
 router.use(authenticationMiddleware);
 
 // ADMIN ROUTES
-router.get("/users", authorizationMiddleware(["Admin"]), userController.getAllUsers);       
-router.get("/users/:id", authorizationMiddleware(["Admin"]), userController.getUser);       
-router.put("/users/:id", authorizationMiddleware(["Admin"]), userController.updateUserRole);
-router.delete("/users/:id", authorizationMiddleware(["Admin"]), userController.deleteUser); 
+router.get("/users", authorizationMiddleware(["System Admin"]), userController.getAllUsers);       
+router.get("/users/:id", authorizationMiddleware(["System Admin"]), userController.getUser);       
+router.put("/users/:id", authorizationMiddleware(["System Admin"]), userController.updateUserRole);
+router.delete("/users/:id", authorizationMiddleware(["System Admin"]), userController.deleteUser); 
 
 // AUTHENTICATED USER ROUTES
 router.get("/users/profile", userController.getCurrentUser);          
 router.put("/users/profile", userController.updateCurrentUserProfile);
 
 // missing routes
-router.get("/users/bookings", authorizationMiddleware(["Standard", "Organizer", "Admin"]), userController.getUserBookings);
+router.get("/users/bookings", authorizationMiddleware(["Standard User", "Organizer", "System Admin"]), userController.getUserBookings);
 router.get("/users/events", authorizationMiddleware(["Organizer"]), userController.getUserEvents);
 router.get("/users/events/analytics", authorizationMiddleware(["Organizer"]), userController.getEventAnalytics);
 

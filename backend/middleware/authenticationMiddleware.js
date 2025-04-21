@@ -1,4 +1,3 @@
-
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -6,11 +5,11 @@ const authenticationMiddleware = (req, res, next) => {
   const secretKey = process.env.SECRET_KEY;
   const cookie = req.cookies;
 
-  if (!cookie || !cookie.token) {
+  if (!req.cookies?.token) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
 
-  const token = cookie.token;
+  const token = req.cookies.token;
 
   jwt.verify(token, secretKey, (error, decoded) => {
     if (error) {

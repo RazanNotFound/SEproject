@@ -41,9 +41,9 @@ const userController = {
       );
 
       user.password = undefined;
-
-      console.log("Generated token:", token);
       
+      console.log("Generated token:", token);
+
       return res
         .cookie("token", token, {
           httpOnly: true,
@@ -86,7 +86,7 @@ const userController = {
   //  /api/v1/users (Admin only)
   getAllUsers: async (req, res) => {
     try {
-      if (req.user.role !== "admin") {
+      if (req.user.role !== "System Admin") {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -131,7 +131,7 @@ const userController = {
   //  /api/v1/users/:id (GET) — Admin
   getUser: async (req, res) => {
     try {
-      if (req.user.role !== "admin") {
+      if (req.user.role !== "System Admin") {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -146,7 +146,7 @@ const userController = {
   //  /api/v1/users/:id (PUT) — Update user role (Admin)
   updateUserRole: async (req, res) => {
     try {
-      if (req.user.role !== "admin") {
+      if (req.user.role !== "System Admin") {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -162,7 +162,7 @@ const userController = {
   //  /api/v1/users/:id (DELETE) — Admin
   deleteUser: async (req, res) => {
     try {
-      if (req.user.role !== "admin") {
+      if (req.user.role !== "System Admin") {
         return res.status(403).json({ message: "Access denied" });
       }
 
