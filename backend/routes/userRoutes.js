@@ -9,6 +9,7 @@ const authorizationMiddleware = require("../middleware/authorizationMiddleware")
 router.post("/register", userController.register);             // /api/v1/register
 router.post("/login", userController.login);                   // /api/v1/login
 router.put("/forgetPassword", userController.forgetPassword);  // /api/v1/forgetPassword
+router.post('/logout', userController.logout);
 
 // PROTECTED ROUTES — require authentication
 router.use(authenticationMiddleware);
