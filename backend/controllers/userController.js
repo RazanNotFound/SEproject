@@ -1,6 +1,6 @@
 const userModel = require("../models/User");
 const bookingModel = require("../Models/Booking");
-const eventModel = require("../models/Event");
+const eventModel = require("../Models/Event");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -57,6 +57,29 @@ const userController = {
       res.status(500).json({ message: "Server error" });
     }
   },
+
+logout: async (req, res) => {
+  try {
+    // Clear the HTTP-only cookie
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Required for HTTPS
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/" // Important for cookie clearance
+    });
+
+    res.status(200).json({ 
+      success: true,
+      message: "Logged out successfully" 
+    });
+  } catch (error) {
+    console.error("Logout error:", error.message);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during logout" 
+    });
+  }
+},
 
   ///api/v1/forgetPassword  Update user password (Public)
   forgetPassword: async (req, res) => {

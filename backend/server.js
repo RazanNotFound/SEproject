@@ -11,6 +11,12 @@ connectDB();
 
 // middleware
 app.use(express.json());
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true, // <-- VERY important for cookies
+}));
 
 // routes
 app.use("/api/v1", require("./routes/userRoutes"));
