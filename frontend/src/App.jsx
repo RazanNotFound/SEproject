@@ -3,39 +3,50 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Start from "./pages/Start";
+import ProfileForm from "./components/ProfileForm";
+import UpdateProfileForm from "./components/UpdateProfileForm";
+import Home from "./pages/Home";
+import ForgetPassword from "./pages/ForgetPassword";
+import Logo from "./assets/logo.png"; // Adjust the path as necessary
 
-const Home = () => {
-  const { user, logout } = useAuth();
-
-  const handleLogout = async () => {
-    await fetch("/api/v1/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    logout();
-  };
-
+function NavBar() {
+  const { user } = useAuth();
   return (
-    <div className="page">
-      <h2>Welcome, {user?.name}</h2>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <nav className="flex justify-between items-center px-6 py-4 bg-white shadow">
+      {/* Logo */}
+      <Link to="/" className="flex items-center">
+        <img src={Logo} alt="Logo" className="h-24 w-24 object-contain" />
+      </Link>
+
+      {/* Profile Button */}
+      <Link
+        to={user ? "/profile" : "/login"}
+      >
+        {user ? user.name : "Profile"}
+      </Link>
+    </nav>
   );
-};
+}
+function HomeOrStart() {
+  const { user, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
+  return user ? <Home /> : <Start />;
+}
 
 function App() {
+
   return (
     <AuthProvider>
       <Router>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </nav>
+        <NavBar /> {/* Extracted navigation to its own component */}
         <Routes>
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/" element={<HomeOrStart />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/profile" element={<ProfileForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/update-profile" element={<UpdateProfileForm />} />
         </Routes>
       </Router>
     </AuthProvider>

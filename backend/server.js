@@ -18,6 +18,8 @@ app.use(cors({
   credentials: true, // <-- VERY important for cookies
 }));
 
+app.use('/uploads', express.static('uploads'));
+
 // routes
 app.use("/api/v1", require("./routes/userRoutes"));
 app.use("/api/v1/events", require("./routes/eventRoutes"));

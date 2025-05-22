@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const userController = require("../controllers/userController");
 const authenticationMiddleware = require("../middleware/authenticationMiddleware");
@@ -16,7 +18,7 @@ router.use(authenticationMiddleware);
 
 // AUTHENTICATED USER ROUTES — these must come first
 router.get("/users/profile", userController.getCurrentUser);          
-router.put("/users/profile", userController.updateCurrentUserProfile);
+router.put("/users/profile",  upload.single("profilePic"),userController.updateCurrentUserProfile);
 
 router.get("/users/bookings", authorizationMiddleware(["Standard User", "Organizer", "System Admin"]), userController.getUserBookings);
 router.get("/users/events", authorizationMiddleware(["Organizer"]), userController.getUserEvents);
