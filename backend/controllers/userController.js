@@ -1,6 +1,6 @@
 const userModel = require("../models/User");
-const bookingModel = require("../Models/Booking");
-const eventModel = require("../Models/Event");
+const bookingModel = require("../models/Booking");
+const eventModel = require("../models/Event");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
