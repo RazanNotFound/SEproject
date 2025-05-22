@@ -7,20 +7,21 @@ import Start from "./pages/Start";
 import ProfileForm from "./components/ProfileForm";
 import UpdateProfileForm from "./components/UpdateProfileForm";
 import Home from "./pages/Home";
+import ForgetPassword from "./pages/ForgetPassword";
+import Logo from "./assets/logo.png"; // Adjust the path as necessary
 
 function NavBar() {
   const { user } = useAuth();
   return (
     <nav className="flex justify-between items-center px-6 py-4 bg-white shadow">
       {/* Logo */}
-      <Link to="/" className="text-2xl">
-        🎟️
+      <Link to="/" className="flex items-center">
+        <img src={Logo} alt="Logo" className="h-24 w-24 object-contain" />
       </Link>
 
       {/* Profile Button */}
       <Link
         to={user ? "/profile" : "/login"}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         {user ? user.name : "Profile"}
       </Link>
@@ -41,7 +42,7 @@ function App() {
         <NavBar /> {/* Extracted navigation to its own component */}
         <Routes>
         <Route path="/" element={<HomeOrStart />} />
-
+        <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/profile" element={<ProfileForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
