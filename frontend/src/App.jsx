@@ -3,75 +3,80 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import MyEventsPage from "./components/events/MyEventsPage";
-import EventForm from "./components/events/EventForm";
-import EventAnalytics from "./components/events/EventAnalytics";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await fetch("/api/v1/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    logout();
-    navigate("/login");
-  };
+  const { user } = useAuth();
 
   return (
-    <nav className="bg-gray-800 text-white px-4 py-3 flex justify-between items-center">
-      <div className="space-x-4">
-        <Link to="/" className="hover:underline">Home</Link>
-        {!user && (
+    <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white shadow">
+      {/* Logo and Main Navigation */}
+      <div className="flex items-center space-x-8">
+        <Link to="/" className="flex items-center">
+          <img src={Logo} alt="Logo" className="h-10 w-10 object-contain" />
+        </Link>
+        
+        <div className="hidden md:flex space-x-6">
+          {!user && (
+            <>
+              <Link to="/login" className="hover:text-blue-300 transition">Login</Link>
+              <Link to="/register" className="hover:text-blue-300 transition">Register</Link>
+            </>
+          )}
+          {user?.role === "Organizer" && (
+            <>
+              <Link to="/my-events" className="hover:text-blue-300 transition">My Events</Link>
+              <Link to="/my-events/new" className="hover:text-blue-300 transition">Create Event</Link>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* User Profile Link */}
+      <div className="flex items-center space-x-6">
+        {user && (
           <>
-            <Link to="/login" className="hover:underline">Login</Link>
-            <Link to="/register" className="hover:underline">Register</Link>
-          </>
-        )}
-        {user?.role === "Organizer" && (
-          <>
-            <Link to="/my-events" className="hover:underline">My Events</Link>
-            <Link to="/my-events/new" className="hover:underline">Create Event</Link>
+            <span className="hidden sm:inline text-sm">Welcome, {user.name}</span>
+            <Link 
+              to="/profile" 
+              className="hover:text-blue-300 transition flex items-center"
+            >
+              <span className="material-icons mr-1">account_circle</span>
+              Profile
+            </Link>
           </>
         )}
       </div>
-      {user && (
-        <div className="flex items-center space-x-4">
-          <span className="text-sm">Hi, {user.name}</span>
-          <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 text-sm">Logout</button>
-        </div>
-      )}
     </nav>
   );
-};
-
-const Home = () => {
-  const { user } = useAuth();
-  return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold">Welcome{user ? `, ${user.name}` : ""}!</h2>
-      <p className="mt-2">This is your event management dashboard.</p>
-    </div>
-  );
-};
+}
+function HomeOrStart() {
+  const { user, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
+  return user ? <Home /> : <Start />;
+}
 
 function App() {
+
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
+
+        <NavBar /> {/* Extracted navigation to its own component */}
         <Routes>
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/" element={<HomeOrStart />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/profile" element={<ProfileForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          
+         
           {/* Event Management Routes (Organizer) */}
           <Route path="/my-events" element={<ProtectedRoute roles={["Organizer"]}><MyEventsPage /></ProtectedRoute>} />
           <Route path="/my-events/new" element={<ProtectedRoute roles={["Organizer"]}><EventForm /></ProtectedRoute>} />
           <Route path="/my-events/:id/edit" element={<ProtectedRoute roles={["Organizer"]}><EventForm /></ProtectedRoute>} />
           <Route path="/my-events/analytics" element={<ProtectedRoute roles={["Organizer"]}><EventAnalytics /></ProtectedRoute>} />
+
+          <Route path="/update-profile" element={<UpdateProfileForm />} />
+
         </Routes>
       </Router>
     </AuthProvider>

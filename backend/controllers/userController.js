@@ -140,23 +140,33 @@ logout: async (req, res) => {
   
 
   //  /api/v1/users/profile (PUT)
-  updateCurrentUserProfile: async (req, res) => {
-    try {
-      const userId = req.user.userId;
-      const allowedFields = ["name", "email", "profilePic"];
-      const updates = {};
+updateCurrentUserProfile: async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const allowedFields = ["name", "email"];
+    const updates = {};
 
-      allowedFields.forEach(field => {
-        if (req.body[field]) updates[field] = req.body[field];
-      });
+    // Handle text fields
+    allowedFields.forEach(field => {
+      if (req.body[field]) updates[field] = req.body[field];
+    });
 
-      const updatedUser = await userModel.findByIdAndUpdate(userId, updates, { new: true });
-      return res.status(200).json({ message: "Profile updated", user: updatedUser });
-    } catch (error) {
-      console.error("Update profile error:", error.message);
-      return res.status(500).json({ message: "Server error" });
+    // Handle profilePic file upload
+    if (req.file) {
+      // Save the file path or URL (adjust as needed for your setup)
+      updates.profilePic = `/uploads/${req.file.filename}`;
+    } else if (req.body.profilePic) {
+      // If profilePic is sent as a string (e.g., a URL), allow that too
+      updates.profilePic = req.body.profilePic;
     }
-  },
+
+    const updatedUser = await userModel.findByIdAndUpdate(userId, updates, { new: true });
+    return res.status(200).json({ message: "Profile updated", user: updatedUser });
+  } catch (error) {
+    console.error("Update profile error:", error.message);
+    return res.status(500).json({ message: "Server error" });
+  }
+},
 
   //  /api/v1/users/:id (GET) — Admin
   getUser: async (req, res) => {
