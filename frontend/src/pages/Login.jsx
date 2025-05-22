@@ -1,9 +1,14 @@
+import { useAuth } from "../auth/AuthContext";
 import LoginForm from "../components/LoginForm";
+import LogoutForm from "../components/LogoutForm";
 
 const Login = () => {
+  
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="page">
-      <LoginForm />
+      {isAuthenticated ? <LogoutForm /> : <LoginForm />}
     </div>
   );
 };
