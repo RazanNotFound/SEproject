@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-
+{/* ...user should be logged in to access this page... */}
 const HomeForm = () => {
   const { user } = useAuth();
   const navigate = useNavigate();

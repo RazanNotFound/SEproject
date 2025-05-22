@@ -69,7 +69,7 @@ const handleFileChange = (e) => {
             className="w-32 h-32 rounded-full object-cover border-4 border-blue-200 shadow"
           />
         ) : (
-          <span className="text-gray-500">Not provided</span>
+          <span className="text-gray-500">No profile picture</span>
         )}
       </div>
     </div>

@@ -12,11 +12,6 @@ const Login = () => {
   return (
     <div className="page">
       <LoginForm />
-      <div className="mt-4 text-center">
-        <Link to="/forget-password" className="text-blue-600 hover:underline">
-          Forgot Password?
-        </Link>
-      </div>
     </div>
   );
 };
