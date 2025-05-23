@@ -1,35 +1,50 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { getEventAnalytics } from "../../services/api";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
+const COLORS = ["#00C49F", "#FF8042"];
+
 export default function EventAnalytics() {
-  const [data, setData] = useState([]);
-  const [params] = useSearchParams();
-  const eventId = params.get("eventId");
+  const [analytics, setAnalytics] = useState(null);
 
   useEffect(() => {
-    if (eventId) {
-      getEventAnalytics(eventId).then(setData);
-    }
-  }, [eventId]);
+    const load = async () => {
+      try {
+        const data = await getEventAnalytics(); 
+        setAnalytics(data);
+      } catch (err) {
+        console.error("Failed to load analytics:", err);
+      }
+    };
+    load();
+  }, []);
 
-  const COLORS = ["#00C49F", "#FF8042"];
+  if (!analytics) return <p className="p-4">Loading analytics...</p>;
+
+  const pieData = [
+    { name: "Sold", value: analytics.totalTickets },
+    { name: "Unsold", value: 100 - analytics.totalTickets },
+  ];
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Event Analytics</h2>
+    <div className="p-6 text-white">
+      <h1 className="text-2xl font-bold mb-6">Event Analytics</h1>
+      <p>Total Events: {analytics.totalEvents}</p>
+      <p>Total Tickets Sold: {analytics.totalTickets}</p>
+
       <PieChart width={400} height={300}>
         <Pie
-          data={data}
+          data={pieData}
+          cx={200}
+          cy={150}
+          outerRadius={80}
+          fill="#8884d8"
           dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
           label
         >
-          {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+          {pieData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
         </Pie>
         <Tooltip />
         <Legend />
