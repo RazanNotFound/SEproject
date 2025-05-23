@@ -1,19 +1,20 @@
 import { useNavigate } from "react-router-dom";
 
 export default function EventCard({ event }) {
-  const {
-    _id,
-    title,
-    date,
-    location,
-    ticketPrice: price,         
-    totalTickets: ticketCount,   
-    remainingTickets,
-    status,
-  } = event;
+  const navigate = useNavigate();
 
-  // Calculate tickets sold
-  const ticketsSold = ticketCount - remainingTickets;
+  const {
+  _id,
+  title,
+  date,
+  location,
+  ticketPrice,
+  totalTickets,
+  remainingTickets,
+  status,
+} = event;
+
+  //const remainingTickets = typeof ticketCount === "number" && typeof ticketsSold === "number" ? ticketCount - ticketsSold: null;
   const formattedDate = new Date(date).toLocaleDateString();
 
   return (
@@ -25,8 +26,7 @@ export default function EventCard({ event }) {
         <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
         <p className="text-gray-600">📍 {location}</p>
         <p className="text-gray-600">📅 {formattedDate}</p>
-        <p className="text-gray-600">🎟️ ${price}</p>
-        <p className= "text- gray-600"> {status}</p>
+        <p className="text-gray-600">🎟️ ${ticketPrice}</p>
       </div>
 
       {status && (
@@ -43,23 +43,25 @@ export default function EventCard({ event }) {
         </span>
       )}
 
-      {typeof remainingTickets === "number" && (
-        <p
-          className={`mt-2 text-sm font-medium ${
-            remainingTickets === 0
-              ? "text-red-600"
-              : remainingTickets <= 5
-              ? "text-yellow-600"
-              : "text-green-600"
-          }`}
-        >
-          {remainingTickets === 0
-            ? "Sold Out"
-            : remainingTickets <= 5
-            ? `Only ${remainingTickets} left`
-            : `${remainingTickets} tickets available`}
-        </p>
-      )}
-    </div>
+      {typeof remainingTickets === "number" ? (
+  <p
+    className={`mt-2 text-sm font-medium ${
+      remainingTickets === 0
+        ? "text-red-600"
+        : remainingTickets <= 5
+        ? "text-yellow-600"
+        : "text-green-600"
+    }`}
+  >
+    {remainingTickets === 0
+      ? "Sold Out"
+      : remainingTickets <= 5
+      ? `Only ${remainingTickets} left`
+      : `${remainingTickets} tickets available`}
+  </p>
+) : (
+  <p className="mt-2 text-sm text-gray-500">Ticket info unavailable</p>
+)}
+      </div>
   );
 }
