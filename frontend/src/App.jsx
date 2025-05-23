@@ -21,7 +21,8 @@ import AdminEventsPage from "./components/admin/AdminEventsPage";
 import EventDetails from "./pages/EventDetails";
 import Spinner from "./components/Spinner";
 import Navbar from "./components/NavBar";
-
+import Footer from "./components/Footer";
+import DarkModeToggle from "./components/DarkModeToggle";
 function HomeOrStart() {
   const { user, loading } = useAuth();
   if (loading) return <Spinner />;
@@ -34,6 +35,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
+        
         <main className="container mx-auto p-4">
           <Routes>
             <Route path="/" element={<HomeOrStart />} />
@@ -60,6 +62,8 @@ function App() {
             <Route path="/events/:id" element={<EventDetails />} />
           </Routes>
         </main>
+        <DarkModeToggle />
+        <Footer />
       </Router>
     </AuthProvider>
   );

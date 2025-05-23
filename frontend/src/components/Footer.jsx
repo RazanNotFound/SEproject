@@ -1,3 +1,5 @@
+
+import DarkModeToggle from './DarkModeToggle';
 function Footer() {
   return (
     <footer className="w-full text-center py-4 bg-gray-900/30 text-gray-300 mt-12">

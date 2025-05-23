@@ -269,19 +269,19 @@ nav a:last-child {
 /* Admin Users Page Styles */
 
 .admin-users-container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2.5rem 2rem;
-  background: #1e293b;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(16, 23, 32, 0.13);
+  max-width: 950px;
+  margin: 2.2rem auto;
+  padding: 2.7rem 2.2rem;
+  background: #f1f5f9;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(99,102,241,0.10), 0 2px 12px rgba(0,0,0,0.07);
 }
 
 .admin-users-title {
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 700;
-  margin-bottom: 2rem;
-  color: #fbbf24; /* amber-400 */
+  margin-bottom: 2.2rem;
+  color: #fbbf24;
   letter-spacing: 0.01em;
 }
 
@@ -289,28 +289,28 @@ nav a:last-child {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background: #334155;
-  border-radius: 12px;
+  background: #e0e7ff;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(51,65,85,0.07);
+  box-shadow: 0 2px 10px rgba(99,102,241,0.07);
 }
 
 .admin-users-table th,
 .admin-users-table td {
-  padding: 1rem 1.2rem;
+  padding: 1.1rem 1.3rem;
   text-align: left;
 }
 
 .admin-users-table th {
-  background: #475569;
-  color: #f1f5f9;
+  background: #c7d2fe;
+  color: #232946;
   font-weight: 600;
-  font-size: 1.05rem;
-  border-bottom: 2px solid #64748b;
+  font-size: 1.08rem;
+  border-bottom: 2px solid #a5b4fc;
 }
 
 .admin-users-table tr {
-  border-bottom: 1px solid #475569;
+  border-bottom: 1px solid #c7d2fe;
 }
 
 .admin-users-table tr:last-child {
@@ -318,44 +318,44 @@ nav a:last-child {
 }
 
 .admin-users-table td {
-  color: #e2e8f0;
-  font-size: 1rem;
+  color: #232946;
+  font-size: 1.02rem;
 }
 
 .admin-users-table .user-actions button {
-  margin-right: 0.5rem;
-  padding: 0.35rem 1.1rem;
-  border-radius: 6px;
+  margin-right: 0.6rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 8px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.05rem;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .admin-users-table .user-actions .role-btn {
-  background: #38bdf8; /* sky-400 */
+  background: #6366f1;
   color: #fff;
 }
 
 .admin-users-table .user-actions .role-btn:hover {
-  background: #0ea5e9; /* sky-600 */
+  background: #818cf8;
 }
 
 .admin-users-table .user-actions .delete-btn {
-  background: #ef4444; /* red-500 */
+  background: #ef4444;
   color: #fff;
 }
 
 .admin-users-table .user-actions .delete-btn:hover {
-  background: #b91c1c; /* red-700 */
+  background: #b91c1c;
 }
 
 .admin-users-empty {
-  color: #94a3b8;
-  font-size: 1.1rem;
+  color: #64748b;
+  font-size: 1.13rem;
   text-align: center;
-  padding: 2rem 0;
+  padding: 2.2rem 0;
 }
 
 /* Modal and Dialog Styles */
@@ -412,4 +412,179 @@ nav a:last-child {
 
 .admin-modal-content .cancel-btn:hover {
   background: #334155;
+}
+
+/* Dark mode overrides */
+
+.dark body {
+  background: linear-gradient(120deg, #1e293b 60%, #334155 100%);
+  color: #f1f5f9;
+}
+
+.dark nav {
+  background: rgba(30, 41, 59, 0.97);
+  box-shadow: 0 4px 24px rgba(16, 23, 32, 0.22);
+}
+
+.dark nav a {
+  color: #e0e7ef;
+}
+
+.dark .page {
+  background: rgba(30,41,59,0.97);
+  color: #f1f5f9;
+  box-shadow: 0 8px 32px rgba(30,41,59,0.18), 0 1.5px 8px rgba(0,0,0,0.10);
+}
+
+.dark .auth-form {
+  background: rgba(30,41,59,0.97);
+  border: 1px solid #334155;
+  color: #f1f5f9;
+}
+
+.dark .auth-form input,
+.dark .auth-form select {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+.dark .auth-form input:focus,
+.dark .auth-form select:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px #6366f155;
+  background: #334155;
+}
+
+.dark .auth-form button {
+  background: linear-gradient(90deg, #334155 60%, #6366f1 100%);
+  color: #f1f5f9;
+}
+
+.dark .auth-form button:hover,
+.dark .auth-form button:focus {
+  background: linear-gradient(90deg, #6366f1 60%, #334155 100%);
+}
+
+.dark .error {
+  background: #7f1d1d;
+  color: #fee2e2;
+  border-color: #b91c1c;
+}
+
+.dark .event-image-preview {
+  box-shadow: 0 2px 12px rgba(30,41,59,0.23);
+}
+
+.dark .event-upload-status {
+  color: #38bdf8;
+}
+
+.dark .event-upload-success {
+  color: #22d3ee;
+}
+
+.dark .event-upload-error {
+  color: #f87171;
+}
+
+.dark .analytics-container {
+  background: rgba(15, 23, 42, 0.98);
+  color: #f1f5f9;
+}
+
+.dark .analytics-title {
+  color: #fbbf24;
+}
+
+.dark .analytics-summary {
+  color: #e0e7ef;
+}
+
+.dark .analytics-chart-area {
+  background: rgba(30,41,59,0.7);
+}
+
+.dark .admin-events-container,
+.dark .admin-users-container {
+  background: #0f172a;
+  color: #f1f5f9;
+  box-shadow: 0 4px 24px rgba(30,41,59,0.22);
+}
+
+.dark .admin-events-title,
+.dark .admin-users-title {
+  color: #fbbf24;
+}
+
+.dark .admin-events-error,
+.dark .admin-users-table .delete-btn {
+  color: #f87171;
+}
+
+.dark .admin-events-empty,
+.dark .admin-users-empty {
+  color: #64748b;
+}
+
+.dark .admin-event-row,
+.dark .admin-users-table {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark .admin-users-table th {
+  background: #334155;
+  color: #f1f5f9;
+  border-bottom: 2px solid #64748b;
+}
+
+.dark .admin-users-table td {
+  color: #e0e7ef;
+}
+
+.dark .admin-users-table .role-btn {
+  background: #6366f1;
+  color: #fff;
+}
+
+.dark .admin-users-table .role-btn:hover {
+  background: #818cf8;
+}
+
+.dark .admin-users-table .delete-btn {
+  background: #ef4444;
+  color: #fff;
+}
+
+.dark .admin-users-table .delete-btn:hover {
+  background: #b91c1c;
+}
+
+.dark .admin-modal-backdrop {
+  background: rgba(15,23,42,0.8);
+}
+
+.dark .admin-modal-content {
+  background: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 8px 32px rgba(30,41,59,0.28);
+}
+
+.dark .admin-modal-content .save-btn {
+  background: #22c55e;
+  color: #fff;
+}
+
+.dark .admin-modal-content .save-btn:hover {
+  background: #16a34a;
+}
+
+.dark .admin-modal-content .cancel-btn {
+  background: #334155;
+  color: #fff;
+}
+
+.dark .admin-modal-content .cancel-btn:hover {
+  background: #1e293b;
 }
