@@ -12,13 +12,13 @@ import Logo from "./assets/logo.png";
 import EventList from "./pages/EventList";
 import BookingDetails from "./pages/BookingDetails";
 import UserBookings from "./pages/UserBookings";
-import BookTicket from "./pages/BookTicket";
 import MyEventsPage from "./components/events/MyEventsPage";
 import EventForm from "./components/events/EventForm";
 import EventAnalytics from "./components/events/EventAnalytics";
 import AdminUsersPage from "./components/admin/AdminUsersPage";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminEventsPage from "./components/admin/AdminEventsPage";
+import EventDetails from "./pages/EventDetails";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -100,7 +100,7 @@ function App() {
             <Route path="/eventslist" element={<EventList />} /> {/* Works */}
             <Route path="/bookings/:id" element={<BookingDetails />} /> {/* Works */}
             <Route path="/bookings" element={<UserBookings />} /> {/* Works */}
-            <Route path="/events/:id" element={<BookTicket />} /> {/* Works */}
+            <Route path="/events/:id" element={<EventDetails />} />
           </Routes>
         </main>
       </Router>
