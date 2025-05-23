@@ -53,7 +53,7 @@ const bookingController = {
 
     getBookingById: async (req, res) => {
         try {
-        const booking = await Booking.findById(req.params.id)
+        const booking = await Booking.findById(req.params.id);
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found T_T' });
         }

@@ -6,7 +6,7 @@ const HomeForm = () => {
   const navigate = useNavigate();
 
   const handleViewBookings = () => {
-    navigate("/booking");
+    navigate("/bookings");
   };
 
   return (

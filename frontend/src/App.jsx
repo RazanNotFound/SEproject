@@ -9,6 +9,12 @@ import UpdateProfileForm from "./components/UpdateProfileForm";
 import Home from "./pages/Home";
 import ForgetPassword from "./pages/ForgetPassword";
 import Logo from "./assets/logo.png"; // Adjust the path as necessary
+import EventList from "./pages/EventList";
+import BookingDetails from "./pages/BookingDetails";
+import UserBookings from "./pages/UserBookings";
+import BookTicket from "./pages/BookTicket";
+
+
 
 function NavBar() {
   const { user } = useAuth();
@@ -25,6 +31,10 @@ function NavBar() {
       >
         {user ? user.name : "Profile"}
       </Link>
+
+      <Link to={"/eventslist"} className="ml-4 text-blue-500">Book</Link>
+
+
     </nav>
   );
 }
@@ -47,6 +57,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/update-profile" element={<UpdateProfileForm />} />
+        <Route path="/eventslist" element={<EventList />} /> {/* Works */}
+        <Route path="/bookings/:id" element={<BookingDetails />} /> {/* Works */}
+        <Route path="/bookings" element={<UserBookings />} /> {/* Works */}
+        <Route path="/events/:id" element={<BookTicket />} /> {/* Works */}
         </Routes>
       </Router>
     </AuthProvider>
