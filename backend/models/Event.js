@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
     image: { type: String },
     ticketPrice: { type: Number, required: true },
     totalTickets: { type: Number, required: true },
-    remainingTickets: { type: Number, required: true },
+    remainingTickets: { type: Number, default: function() { return this.totalTickets; } },
     organizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     status: { type: String, enum: ['pending', 'approved', 'declined'], default: 'pending' }
 }, {
