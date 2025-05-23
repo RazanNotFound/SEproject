@@ -53,9 +53,6 @@ const handleFileChange = (e) => {
   if (loading) return <div className="text-center py-8">Loading...</div>;
   if (!user) return <div className="text-center py-8">Please log in to view your profile</div>;
     
-  if (user.role === "System Admin") {
-        return <div className="text-center py-8">You are logged in as a System Admin</div>;
-    }
 
   return (
   <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">

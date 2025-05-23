@@ -42,5 +42,3 @@ const EventListForm = () => {
 };
 
 export default EventListForm;
-
-

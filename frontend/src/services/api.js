@@ -16,7 +16,14 @@ export default api;
 //
 
 export const getUserEvents = () =>
-  api.get("/users/events").then(res => res.data.events);
+  api.get("/users/events")
+    .then(res => res.data.events)
+    .catch(err => {
+      if (err.response && err.response.status === 404) {
+        return []; // No events found
+      }
+      throw err;
+  });
 
 // Create a new event (organizer)
 export const createEvent = (data) =>

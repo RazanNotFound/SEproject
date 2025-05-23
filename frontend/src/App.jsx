@@ -19,56 +19,13 @@ import AdminUsersPage from "./components/admin/AdminUsersPage";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminEventsPage from "./components/admin/AdminEventsPage";
 import EventDetails from "./pages/EventDetails";
-
-const Navbar = () => {
-  const { user } = useAuth();
-
-  return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-white shadow">
-      {/* Logo and Main Navigation */}
-      <div className="flex items-center space-x-8">
-        <Link to="/" className="flex items-center">
-          <img src={Logo} alt="Logo" className="h-10 w-10 object-contain" />
-        </Link>
-
-        <div className="hidden md:flex space-x-6">
-          {!user && (
-            <>
-              <Link to="/login" className="hover:text-blue-300 transition">Login</Link>
-              <Link to="/register" className="hover:text-blue-300 transition">Register</Link>
-            </>
-          )}
-          {user?.role === "Organizer" && (
-            <>
-              <Link to="/my-events" className="hover:text-blue-300 transition">My Events</Link>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* User Profile Link */}
-      <div className="flex items-center space-x-6">
-        {user && (
-          <>
-            <span className="hidden sm:inline text-sm">Welcome, {user.name}</span>
-            <Link
-              to="/profile"
-              className="hover:text-blue-300 transition flex items-center"
-            >
-              <span className="material-icons mr-1">account_circle</span>
-              Profile
-            </Link>
-          </>
-        )}
-      </div>
-          <Link to={"/eventslist"} className="ml-4 text-blue-500">Book</Link>
-    </nav>
-  );
-};
+import Spinner from "./components/Spinner";
+import Navbar from "./components/NavBar";
 
 function HomeOrStart() {
   const { user, loading } = useAuth();
-  if (loading) return <div className="text-center p-8">Loading...</div>;
+  if (loading) return <Spinner />;
+  if (user?.role === "System Admin") return <div><AdminUsersPage /><AdminEventsPage /></div>  ;
   return user ? <Home /> : <Start />;
 }
 

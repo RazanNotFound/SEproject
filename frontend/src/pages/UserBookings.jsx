@@ -4,6 +4,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import EventCard from "../components/EventCard";
+import Spinner from "../components/Spinner";
 
 const UserBookings = () => {
     const { user } = useAuth();
@@ -28,7 +29,7 @@ const UserBookings = () => {
     }, [user]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Spinner />;
     }
 
     const handleCancel = async (bookingId) => {
@@ -44,7 +45,7 @@ const UserBookings = () => {
 }
     }
 
-    if (loading) {return <div>Loading...</div>;}
+    if (loading) {return <Spinner/>;}
 
     return (
         <div className="User-bookings">
