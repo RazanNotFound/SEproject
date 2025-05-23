@@ -14,6 +14,9 @@ import Logo from "./assets/logo.png";
 import MyEventsPage from "./components/events/MyEventsPage";
 import EventForm from "./components/events/EventForm";
 import EventAnalytics from "./components/events/EventAnalytics";
+import AdminUsersPage from "./components/admin/AdminUsersPage";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminEventsPage from "./components/admin/AdminEventsPage";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -87,6 +90,9 @@ function App() {
             <Route path="/my-events/new" element={<ProtectedRoute roles={["Organizer"]}><EventForm /></ProtectedRoute>} />
             <Route path="/my-events/:id/edit" element={<ProtectedRoute roles={["Organizer"]}><EventForm /></ProtectedRoute>} />
             <Route path="/my-events/analytics" element={<ProtectedRoute roles={["Organizer"]}><EventAnalytics /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute roles={["System Admin"]}><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/users" element={<ProtectedRoute roles={["System Admin"]}><AdminUsersPage /></ProtectedRoute>} />
+            <Route path="/admin/events" element={<ProtectedRoute roles={["System Admin"]}><AdminEventsPage /></ProtectedRoute>} />
           </Routes>
         </main>
       </Router>

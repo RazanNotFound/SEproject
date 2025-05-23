@@ -1,20 +1,19 @@
 import { useNavigate } from "react-router-dom";
 
 export default function EventCard({ event }) {
-  const navigate = useNavigate();
-
   const {
     _id,
     title,
     date,
     location,
-    price,
-    ticketCount,
-    ticketsSold,
+    ticketPrice: price,         
+    totalTickets: ticketCount,   
+    remainingTickets,
     status,
   } = event;
 
-  const remainingTickets = ticketCount - (ticketsSold || 0);
+  // Calculate tickets sold
+  const ticketsSold = ticketCount - remainingTickets;
   const formattedDate = new Date(date).toLocaleDateString();
 
   return (
@@ -27,6 +26,7 @@ export default function EventCard({ event }) {
         <p className="text-gray-600">📍 {location}</p>
         <p className="text-gray-600">📅 {formattedDate}</p>
         <p className="text-gray-600">🎟️ ${price}</p>
+        <p className= "text- gray-600"> {status}</p>
       </div>
 
       {status && (
