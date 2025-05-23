@@ -18,7 +18,7 @@ import EventAnalytics from "./components/events/EventAnalytics";
 import AdminUsersPage from "./components/admin/AdminUsersPage";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminEventsPage from "./components/admin/AdminEventsPage";
-import EventDetails from "./pages/EventDetails";
+import EventDetailsPage from "./pages/EventDetailsPage";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -100,7 +100,7 @@ function App() {
             <Route path="/eventslist" element={<EventList />} /> {/* Works */}
             <Route path="/bookings/:id" element={<BookingDetails />} /> {/* Works */}
             <Route path="/bookings" element={<UserBookings />} /> {/* Works */}
-            <Route path="/events/:id" element={<EventDetails />} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
           </Routes>
         </main>
       </Router>
