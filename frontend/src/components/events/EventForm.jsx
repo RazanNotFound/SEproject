@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createEvent, updateEvent, getEventById } from "../../services/api";
 
+// Replace with your own imgbb API key
+const IMGBB_API_KEY = "506a1d52732ccc10e2e30c49bbf7c5d6";
+
 export default function EventForm() {
   const [form, setForm] = useState({
     title: "",
@@ -13,6 +16,10 @@ export default function EventForm() {
     ticketPrice: 0,
     totalTickets: 0,
   });
+
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -44,16 +51,58 @@ export default function EventForm() {
     }));
   };
 
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+      setUploadError(false);
+    }
+  };
+
+  const uploadToImgbb = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+    setUploadError(false);
+    try {
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      setUploading(false);
+      if (data.success) {
+        return data.data.url;
+      } else {
+        setUploadError(true);
+        alert("Image upload failed");
+        return "";
+      }
+    } catch (err) {
+      setUploading(false);
+      setUploadError(true);
+      alert("Image upload failed");
+      return "";
+    }
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
+      let eventData = { ...form };
+      // If an image file is selected, upload it first
+      if (imageFile) {
+        const imageUrl = await uploadToImgbb(imageFile);
+        if (!imageUrl) return;
+        eventData.image = imageUrl;
+      }
       if (isEdit) {
-        await updateEvent(id, form);
+        await updateEvent(id, eventData);
       } else {
-        await createEvent(form);
+        await createEvent(eventData);
       }
       navigate("/my-events");
     } catch (err) {
+      setUploading(false);
       console.error("Save failed:", err);
       alert("Failed to save event: " + (err.response?.data?.message || err.message));
     }
@@ -141,7 +190,7 @@ export default function EventForm() {
                 </div>
               </div>
 
-              {/* Category & Image URL */}
+              {/* Category & Image Upload */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">
@@ -158,13 +207,37 @@ export default function EventForm() {
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Image URL
+                    Event Image
                   </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="w-full bg-gray-700 border border-gray-600 rounded-md px-4 py-2"
+                  />
+                  {uploading && <div className="event-upload-status">Uploading...</div>}
+                  {imageFile && !uploading && (
+                    <div className="event-upload-success">{imageFile.name}</div>
+                  )}
+                  {uploadError && (
+                    <div className="event-upload-error">Image upload failed</div>
+                  )}
+                  {form.image && (
+                    <img
+                      src={form.image}
+                      alt="Event"
+                      className="event-image-preview"
+                    />
+                  )}
+                  <div className="mt-2 text-xs text-gray-400">
+                    Or paste an image URL below:
+                  </div>
                   <input
                     name="image"
                     value={form.image}
                     onChange={handleChange}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-md px-4 py-2"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-md px-4 py-2 mt-1"
+                    placeholder="https://example.com/image.jpg"
                   />
                 </div>
               </div>
@@ -219,6 +292,7 @@ export default function EventForm() {
             <button
               type="submit"
               className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-md"
+              disabled={uploading}
             >
               {isEdit ? "Update Event" : "Create Event"}
             </button>

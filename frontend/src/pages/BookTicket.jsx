@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import BookingForm from "../components/BookTicketForm";
+import Spinner from "../components/Spinner";
 
 const BookTicket = () => {
     const { id: eventId } = useParams();
@@ -36,7 +37,7 @@ const BookTicket = () => {
     }
 };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Spinner />;
     if (error) return <div>{error}</div>;
     if (!event) return <div>Event not found.</div>;
 

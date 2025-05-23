@@ -26,12 +26,12 @@ export default function EventAnalytics() {
     { name: "Unsold", value: 100 - analytics.totalTickets },
   ];
 
-  return (
-    <div className="p-6 text-white">
-      <h1 className="text-2xl font-bold mb-6">Event Analytics</h1>
-      <p>Total Events: {analytics.totalEvents}</p>
-      <p>Total Tickets Sold: {analytics.totalTickets}</p>
-
+return (
+  <div className="analytics-container">
+    <h1 className="analytics-title">Event Analytics</h1>
+    <p className="analytics-summary">Total Events: {analytics.totalEvents}</p>
+    <p className="analytics-summary">Total Tickets Sold: {analytics.totalTickets}</p>
+    <div className="analytics-chart-area">
       <PieChart width={400} height={300}>
         <Pie
           data={pieData}
@@ -50,5 +50,6 @@ export default function EventAnalytics() {
         <Legend />
       </PieChart>
     </div>
-  );
+  </div>
+);
 }

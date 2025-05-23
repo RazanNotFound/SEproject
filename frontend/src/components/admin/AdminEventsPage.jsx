@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllEvents, approveEvent, declineEvent } from "../../services/api";
 import EventRow from "./EventRow";
+import Spinner from "../Spinner";
 
 export default function AdminEventsPage() {
   const [events, setEvents] = useState([]);
@@ -38,26 +39,26 @@ export default function AdminEventsPage() {
     }
   };
 
-  return (
-    <div className="text-white p-6">
-      <h1 className="text-2xl font-bold mb-6">Admin: Manage Events</h1>
+return (
+  <div className="admin-events-container">
+    <h1 className="admin-events-title">Admin: Manage Events</h1>
 
-      {error && <p className="text-red-500">{error}</p>}
-      {loading ? (
-        <p>Loading...</p>
-      ) : events.length === 0 ? (
-        <p className="text-gray-400">No events found.</p>
-      ) : (
-        <div className="space-y-4">
-          {events.map((event) => (
-            <EventRow
-              key={event._id}
-              event={event}
-              onAction={(action) => handleAction(event._id, action)}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+    {error && <p className="admin-events-error">{error}</p>}
+    {loading ? (
+      <Spinner />
+    ) : events.length === 0 ? (
+      <p className="admin-events-empty">No events found.</p>
+    ) : (
+      <div>
+        {events.map((event) => (
+          <EventRow
+            key={event._id}
+            event={event}
+            onAction={(action) => handleAction(event._id, action)}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+);
 }

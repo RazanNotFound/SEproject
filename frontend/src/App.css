@@ -129,3 +129,287 @@ nav a:last-child {
   box-shadow: 0 1px 6px rgba(239,68,68,0.07);
   letter-spacing: 0.02em;
 }
+/* EventForm custom styles */
+
+.event-image-preview {
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(99,102,241,0.13);
+  max-height: 8rem;
+}
+
+.event-upload-status {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  color: #38bdf8; /* Tailwind blue-400 */
+}
+
+.event-upload-success {
+  color: #22c55e; /* Tailwind green-500 */
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.event-upload-error {
+  color: #ef4444; /* Tailwind red-500 */
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Event Analytics Styles */
+
+.analytics-container {
+  background: rgba(30, 41, 59, 0.95); /* slate-800 with opacity */
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(16, 23, 32, 0.13);
+  padding: 2rem 2.5rem;
+  margin: 2rem auto;
+  max-width: 520px;
+}
+
+.analytics-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #f1f5f9;
+  letter-spacing: 0.01em;
+}
+
+.analytics-summary {
+  font-size: 1.1rem;
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.analytics-chart-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  background: rgba(51,65,85,0.7); /* slate-700 */
+  border-radius: 12px;
+  padding: 1.5rem 0;
+}
+
+/* Admin Events Page Styles */
+
+.admin-events-container {
+  color: #f1f5f9;
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 900px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 24px rgba(16, 23, 32, 0.13);
+}
+
+.admin-events-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #fbbf24; /* amber-400 */
+  letter-spacing: 0.01em;
+}
+
+.admin-events-error {
+  color: #ef4444; /* red-500 */
+  margin-bottom: 1rem;
+}
+
+.admin-events-empty {
+  color: #94a3b8; /* slate-400 */
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+}
+
+.admin-event-row {
+  background: #334155; /* slate-700 */
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(51,65,85,0.07);
+}
+
+.admin-event-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-event-actions button {
+  margin-left: 0.5rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-event-actions .approve-btn {
+  background: #22c55e; /* green-500 */
+  color: #fff;
+}
+
+.admin-event-actions .approve-btn:hover {
+  background: #16a34a; /* green-600 */
+}
+
+.admin-event-actions .decline-btn {
+  background: #ef4444; /* red-500 */
+  color: #fff;
+}
+
+.admin-event-actions .decline-btn:hover {
+  background: #b91c1c; /* red-700 */
+}
+
+/* Admin Users Page Styles */
+
+.admin-users-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2.5rem 2rem;
+  background: #1e293b;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(16, 23, 32, 0.13);
+}
+
+.admin-users-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #fbbf24; /* amber-400 */
+  letter-spacing: 0.01em;
+}
+
+.admin-users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #334155;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(51,65,85,0.07);
+}
+
+.admin-users-table th,
+.admin-users-table td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+}
+
+.admin-users-table th {
+  background: #475569;
+  color: #f1f5f9;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-bottom: 2px solid #64748b;
+}
+
+.admin-users-table tr {
+  border-bottom: 1px solid #475569;
+}
+
+.admin-users-table tr:last-child {
+  border-bottom: none;
+}
+
+.admin-users-table td {
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.admin-users-table .user-actions button {
+  margin-right: 0.5rem;
+  padding: 0.35rem 1.1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-users-table .user-actions .role-btn {
+  background: #38bdf8; /* sky-400 */
+  color: #fff;
+}
+
+.admin-users-table .user-actions .role-btn:hover {
+  background: #0ea5e9; /* sky-600 */
+}
+
+.admin-users-table .user-actions .delete-btn {
+  background: #ef4444; /* red-500 */
+  color: #fff;
+}
+
+.admin-users-table .user-actions .delete-btn:hover {
+  background: #b91c1c; /* red-700 */
+}
+
+.admin-users-empty {
+  color: #94a3b8;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Modal and Dialog Styles */
+.admin-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30,41,59,0.7);
+  z-index: 1000;
+}
+
+.admin-modal-content {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-radius: 14px;
+  padding: 2rem 2.5rem;
+  max-width: 400px;
+  margin: 10vh auto;
+  box-shadow: 0 8px 32px rgba(16,23,32,0.18);
+  position: relative;
+  z-index: 1001;
+}
+
+.admin-modal-content h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.admin-modal-content button {
+  margin-top: 1.5rem;
+  margin-right: 0.7rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-modal-content .save-btn {
+  background: #22c55e;
+  color: #fff;
+}
+
+.admin-modal-content .save-btn:hover {
+  background: #16a34a;
+}
+
+.admin-modal-content .cancel-btn {
+  background: #64748b;
+  color: #fff;
+}
+
+.admin-modal-content .cancel-btn:hover {
+  background: #334155;
+}

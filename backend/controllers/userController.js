@@ -255,26 +255,23 @@ updateCurrentUserProfile: async (req, res) => {
   
 
   //  /api/v1/users/events (Event Organizer)
-  getUserEvents: async (req, res) => {
-    try {
-      const userId = req.user?.userId;
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized: No user found in request" });
-      }
-  
-      const events = await eventModel.find({ organizer: userId });
-  
-      if (!events.length) {
-        return res.status(404).json({ message: "No events found for this user" });
-      }
-  
-      return res.status(200).json({ events });
-    } catch (error) {
-      console.error("Get user events error:", error.message);
-      return res.status(500).json({ message: "Server error" });
+//  /api/v1/users/events (Event Organizer)
+getUserEvents: async (req, res) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized: No user found in request" });
     }
+
+    const events = await eventModel.find({ organizer: userId });
+
+    // Always return 200 with an array (even if empty)
+    return res.status(200).json({ events });
+  } catch (error) {
+    console.error("Get user events error:", error.message);
+    return res.status(500).json({ message: "Server error" });
   }
-  ,
+},
 
   //  /api/v1/users/events/analytics (Event Organizer)
   getEventAnalytics: async (req, res) => {

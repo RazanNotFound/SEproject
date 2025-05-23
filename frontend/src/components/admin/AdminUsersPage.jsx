@@ -1,39 +1,123 @@
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../services/api";
+import axios from "axios";
+import { toast } from "react-toastify";
 import UserRow from "./UserRow";
+import UpdateUserRoleModal from "./UpdateUserRoleModal";
+import ConfirmationDialog from "./ConfirmationDialog";
 
-export default function AdminUsersPage() {
+const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+const fetchUsers = async () => {
+  try {
+    const token = localStorage.getItem("token"); // or whatever key you use
+    const res = await axios.get("http://localhost:5000/api/v1/users", {
+  withCredentials: true,
+});
+    console.log("Fetched users:", res.data);
+    if (Array.isArray(res.data)) {
+      setUsers(res.data);
+    } else if (Array.isArray(res.data.users)) {
+      setUsers(res.data.users);
+    } else {
+      setUsers([]);
+    }
+  } catch (error) {
+    toast.error("Failed to fetch users");
+    setUsers([]);
+  }
+};
 
   useEffect(() => {
-    getAllUsers().then(setUsers).catch(err => {
-      console.error("Failed to fetch users:", err);
-    });
+    fetchUsers();
   }, []);
 
-  const updateUserInList = (updatedUser) => {
-    setUsers(prev =>
-      prev.map(u => (u._id === updatedUser._id ? updatedUser : u))
-    );
+  const handleOpenRoleModal = (user) => {
+    setSelectedUser(user);
+    setShowRoleModal(true);
   };
 
-  const removeUserFromList = (id) => {
-    setUsers(prev => prev.filter(u => u._id !== id));
+  const handleOpenDeleteDialog = (user) => {
+    setSelectedUser(user);
+    setShowDeleteDialog(true);
   };
 
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
-      <div className="space-y-4">
-        {users.map(user => (
-          <UserRow
-            key={user._id}
-            user={user}
-            onUpdate={updateUserInList}
-            onDelete={removeUserFromList}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
+  const handleUpdateRole = async (newRole) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/v1/users/${selectedUser._id}`,
+        { role: newRole },
+        { withCredentials: true }
+      );
+      toast.success("Role updated");
+      fetchUsers();
+    } catch {
+      toast.error("Failed to update role");
+    } finally {
+      setShowRoleModal(false);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/v1/users/${selectedUser._id}`,
+        { withCredentials: true }
+      );
+      toast.success("User deleted");
+      fetchUsers();
+    } catch {
+      toast.error("Failed to delete user");
+    } finally {
+      setShowDeleteDialog(false);
+    }
+  };
+
+
+return (
+  <div className="admin-users-container">
+    <h1 className="admin-users-title">Manage Users</h1>
+    <table className="admin-users-table">
+      <tbody>
+        {Array.isArray(users) && users.length > 0 ? (
+          users.map(user => (
+            <UserRow
+              key={user._id}
+              user={user}
+              onUpdateRole={() => handleOpenRoleModal(user)}
+              onDelete={() => handleOpenDeleteDialog(user)}
+            />
+          ))
+        ) : (
+          <tr>
+            <td colSpan="4" className="admin-users-empty">
+              No users found.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+
+    {showRoleModal && selectedUser && (
+      <UpdateUserRoleModal
+        user={selectedUser}
+        onClose={() => setShowRoleModal(false)}
+        onSave={handleUpdateRole}
+      />
+    )}
+
+    {showDeleteDialog && selectedUser && (
+      <ConfirmationDialog
+        message={`Are you sure you want to delete ${selectedUser.name}?`}
+        onConfirm={handleDeleteUser}
+        onCancel={() => setShowDeleteDialog(false)}
+      />
+    )}
+  </div>
+);
+};
+
+export default AdminUsersPage;
