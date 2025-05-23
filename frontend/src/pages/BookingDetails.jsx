@@ -62,6 +62,22 @@ const BookingDetails = () => {
       <p><strong>Booking Date:</strong>{" "}
         {booking.createdAt ? new Date(booking.createdAt).toLocaleString() : "N/A"}
       </p>
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <button
+          onClick={() => navigate("/")}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#4caf50",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "16px",
+          }}
+        >
+          Go to Homepage
+        </button>
+      </div>
       
     </div>
   );
