@@ -8,6 +8,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     role: "Standard User", // Removed profilePic
   });
   const [error, setError] = useState("");
@@ -21,17 +22,22 @@ const Register = () => {
     e.preventDefault();
     setError("");
 
-    try {
-      // Changed from FormData to regular JSON
-      await axios.post("http://localhost:5000/api/v1/register", formData, {
-        headers: { "Content-Type": "application/json" }, // Changed content type
-        withCredentials: true,
-      });
-      navigate("/login");
-    } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
-    }
-  };
+
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
+
+  try {
+    await axios.post("http://localhost:5000/api/v1/register", formData, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    });
+    navigate("/login");
+  } catch (err) {
+    setError(err.response?.data?.message || "Registration failed");
+  }
+};
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
@@ -63,6 +69,16 @@ const Register = () => {
           required
           className="w-full p-3 my-2 border border-gray-300 rounded"
         />
+
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          onChange={handleChange}
+          required
+          className="w-full p-3 my-2 border border-gray-300 rounded"
+        />
+
         <select
           name="role"
           onChange={handleChange}
@@ -71,7 +87,7 @@ const Register = () => {
         >
           <option value="Standard User">Standard User</option>
           <option value="Organizer">Organizer</option>
-          <option value="System Admin">System Admin</option>
+          {/*<option value="System Admin">System Admin</option>*/}
         </select>
         
         {/* Removed file input completely */}
